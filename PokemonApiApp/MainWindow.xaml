@@ -1,0 +1,58 @@
+﻿<Window x:Class="PokemonApiApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:wpfAnimatedGif="http://wpfanimatedgif.codeplex.com"
+        Title="Pokemon API" Height="600" Width="1000"
+        Icon="Resources/icon.ico">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Title -->
+        <TextBlock Text="Pokemon API App" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2" Margin="10"/>
+
+        <!-- Description -->
+        <TextBlock Text="This app provides an interface to load and view Pokémon data from the Pokémon API. Users can load the first 100 available Pokémon and view their names and images in a table. Selecting a Pokémon from the table displays detailed information about the Pokémon, including its height, weight, and other specifications." 
+                   FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" Margin="10" Grid.Row="1" Grid.ColumnSpan="2"/>
+
+        <!-- Load Button -->
+        <Button Content="Load Data" HorizontalAlignment="Center" VerticalAlignment="Top" Width="100" Margin="10" Grid.Row="2" Grid.ColumnSpan="2" Click="LoadData_Click"/>
+
+        <!-- Loading Panel -->
+        <StackPanel Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="LoadingPanel" Visibility="Collapsed">
+            <Image wpfAnimatedGif:ImageBehavior.AnimatedSource="pack://application:,,,/PokemonApiApp;component/Resources/loading.gif" Width="100" Height="100"/>
+            <TextBlock Text="Loading from API, please wait..." FontSize="16" FontWeight="Bold" Margin="10"/>
+        </StackPanel>
+
+        <!-- Data Grid -->
+        <DataGrid x:Name="PokemonDataGrid" IsReadOnly="True" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Grid.Row="3" Grid.Column="0" SelectionChanged="PokemonDataGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Image">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding ImageUrl}" Width="50" Height="50"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Details Panel -->
+        <StackPanel x:Name="DetailsPanel" Grid.Row="3" Grid.Column="1" Margin="10" Visibility="Collapsed">
+            <TextBlock Text="Details" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+            <Image x:Name="PokemonImage" Width="200" Height="200" Margin="0,0,0,10"/>
+            <TextBlock x:Name="PokemonName" FontSize="16" FontWeight="Bold" Margin="0,10,0,10"/>
+            <TextBlock Text="Specs:" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
+            <StackPanel x:Name="SpecsPanel"/>
+        </StackPanel>
+    </Grid>
+</Window>
